@@ -1,0 +1,36 @@
+---
+title: "NMF_heatmap"
+output: html_document
+---
+
+```{r setup}
+library(NMF)
+```
+
+## R Markdown
+
+```{r}
+set.seed(100)
+# random data that follow an 3-rank NMF model (with quite some noise)
+X <- syntheticNMF(100, 3, 20, noise=0.1)
+X_noisy <- syntheticNMF(100, 3, 20, noise=2)
+# row annotations and covariates
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r}
+#par(mfrow=c(1,2))
+#aheatmap(X, annCol=covariates, annRow=X$fData)
+```
+
+```{r}
+res <- nmf(X, 3, nrun=10)
+res_noisy <- nmf(X_noisy, 3, nrun = 10)
+par(c(1,2))
+coefmap(minfit(res)) # it's H !
+coefmap(minfit(res_noisy))
+
+```
