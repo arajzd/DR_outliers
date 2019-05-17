@@ -17,20 +17,19 @@ X_noisy <- syntheticNMF(100, 3, 20, noise=2)
 # row annotations and covariates
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r}
-#par(mfrow=c(1,2))
-#aheatmap(X, annCol=covariates, annRow=X$fData)
-```
 
 ```{r}
 res <- nmf(X, 3, nrun=10)
-res_noisy <- nmf(X_noisy, 3, nrun = 10)
+res_noisy <- nmf(X_noisy, 3, nrun = 10, method = 'nsNMF')
 par(c(1,2))
 coefmap(minfit(res)) # it's H !
 coefmap(minfit(res_noisy))
+
+```
+
+
+```{r}
+res_cleaned <- rnmf(X_noisy, k = 2, showprogress = FALSE, my.seed = 100)
+coefmap(res_cleaned$fit)
 
 ```
