@@ -19,17 +19,24 @@ X_noisy <- syntheticNMF(100, 3, 20, noise=2)
 
 
 ```{r}
-res <- nmf(X, 3, nrun=10)
-res_noisy <- nmf(X_noisy, 3, nrun = 10, method = 'nsNMF')
-par(c(1,2))
+#seed_nmf = 412
+#res <- nmf(X,3, nrun=10)
+#rank_consensus <- nmf(X_noisy, 2:5, nrun = 10)
+jpeg('rplot.jpg')
+plot(rank_consensus)
+jpeg('rplot2.jpg')
 coefmap(minfit(res)) # it's H !
-coefmap(minfit(res_noisy))
+dev.off()
+#coefmap(minfit(res_noisy))
 
 ```
 
-
 ```{r}
-res_cleaned <- rnmf(X_noisy, k = 2, showprogress = FALSE, my.seed = 100)
-coefmap(res_cleaned$fit)
-
+res_noisy <- nmf(X_noisy, 3, nrun = 10)
+jpeg('noisy_coefmap.jpg')
+coefmap(res_noisy)
+res_noisy_nsNMF <- nmf(X_noisy, 3, nrun = 10 ,method = 'nsNMF')
+jpeg('noisy_nsNMF.jpg')
+coefmap(res_noisy_nsNMF)
+dev.off()
 ```
