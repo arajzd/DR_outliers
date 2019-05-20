@@ -1,0 +1,42 @@
+---
+title: "NMF_heatmap"
+output: html_document
+---
+
+```{r setup}
+library(NMF)
+```
+
+## R Markdown
+
+```{r}
+set.seed(100)
+# random data that follow an 3-rank NMF model (with quite some noise)
+X <- syntheticNMF(100, 3, 20, noise=0.1)
+X_noisy <- syntheticNMF(100, 3, 20, noise=2)
+# row annotations and covariates
+```
+
+
+```{r}
+#seed_nmf = 412
+#res <- nmf(X,3, nrun=10)
+#rank_consensus <- nmf(X_noisy, 2:5, nrun = 10)
+jpeg('rplot.jpg')
+plot(rank_consensus)
+jpeg('rplot2.jpg')
+coefmap(minfit(res)) # it's H !
+dev.off()
+#coefmap(minfit(res_noisy))
+
+```
+
+```{r}
+res_noisy <- nmf(X_noisy, 3, nrun = 10)
+jpeg('noisy_coefmap.jpg')
+coefmap(res_noisy)
+res_noisy_nsNMF <- nmf(X_noisy, 3, nrun = 10 ,method = 'nsNMF')
+jpeg('noisy_nsNMF.jpg')
+coefmap(res_noisy_nsNMF)
+dev.off()
+```
